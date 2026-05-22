@@ -15,7 +15,6 @@ class ProfileSetupScreen extends StatefulWidget {
 class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   final PageController _pageController = PageController();
 
-  // Form controllers
   final _nameController = TextEditingController();
   final _ageController = TextEditingController();
   final _weightController = TextEditingController();
@@ -147,11 +146,47 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     }
   }
 
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    String? suffixText,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          )
+        ],
+      ),
+      child: TextField(
+        controller: controller,
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(icon, color: AppTheme.primaryGreen),
+          suffixText: suffixText,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+          filled: true,
+          fillColor: Colors.transparent,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Setup Profile'),
+        flexibleSpace: Container(decoration: const BoxDecoration(gradient: AppTheme.primaryGradient)),
+        foregroundColor: Colors.white,
         leading: _currentPage > 0
             ? IconButton(
                 icon: const Icon(Icons.arrow_back),
@@ -164,20 +199,17 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
           children: [
             // Progress indicator
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 20.0),
               child: SmoothPageIndicator(
                 controller: _pageController,
                 count: 3,
                 effect: WormEffect(
-                  dotColor: Colors.grey.shade300,
+                  dotColor: AppTheme.lightGray,
                   activeDotColor: AppTheme.primaryGreen,
-                  dotHeight: 10,
-                  dotWidth: 10,
+                  dotHeight: 12,
+                  dotWidth: 12,
                   spacing: 16,
                 ),
-                onDotClicked: (index) {
-                  // Optionally allow clicking on dots to navigate
-                },
               ),
             ),
 
@@ -186,11 +218,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
               child: PageView(
                 controller: _pageController,
                 physics: const NeverScrollableScrollPhysics(),
-                onPageChanged: (page) {
-                  setState(() {
-                    _currentPage = page;
-                  });
-                },
+                onPageChanged: (page) => setState(() => _currentPage = page),
                 children: [
                   _buildBasicInfoPage(),
                   _buildMeasurementsPage(),
@@ -200,23 +228,47 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
             ),
 
             // Navigation buttons
-            Padding(
-              padding: const EdgeInsets.all(20.0),
+            Container(
+              padding: const EdgeInsets.all(24.0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, -5),
+                  )
+                ]
+              ),
               child: Row(
                 children: [
                   if (_currentPage > 0)
                     Expanded(
                       child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          side: const BorderSide(color: AppTheme.primaryGreen, width: 2),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        ),
                         onPressed: _previousPage,
-                        child: const Text('Back'),
+                        child: const Text('Back', style: TextStyle(color: AppTheme.primaryGreen, fontWeight: FontWeight.bold)),
                       ),
                     ),
-                  if (_currentPage > 0) const SizedBox(width: 12),
+                  if (_currentPage > 0) const SizedBox(width: 16),
                   Expanded(
-                    flex: _currentPage == 0 ? 1 : 1,
+                    flex: 2,
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryGreen,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        elevation: 5,
+                      ),
                       onPressed: _nextPage,
-                      child: Text(_currentPage == 2 ? 'Finish' : 'Next'),
+                      child: Text(
+                        _currentPage == 2 ? 'Complete Setup' : 'Continue',
+                        style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ],
@@ -230,96 +282,62 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
   Widget _buildBasicInfoPage() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Tell us about yourself',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
+          const Icon(Icons.person_pin, size: 64, color: AppTheme.primaryBlue),
+          const SizedBox(height: 16),
+          Text('Tell us about yourself', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          Text(
-            'This helps us calculate your daily calorie target',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 32),
+          const Text('This helps our AI precisely calculate your daily calorie budget.', style: TextStyle(color: AppTheme.mediumGray, fontSize: 16)),
+          const SizedBox(height: 40),
 
-          // Name Card
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Name', style: Theme.of(context).textTheme.titleMedium),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your name',
-                      prefixIcon: Icon(Icons.person_outline),
-                    ),
-                  ),
-                ],
-              ),
+          _buildTextField(
+            controller: _nameController,
+            label: 'Your Name',
+            icon: Icons.person_outline,
+          ),
+          const SizedBox(height: 24),
+          _buildTextField(
+            controller: _ageController,
+            label: 'Age',
+            icon: Icons.cake_outlined,
+            suffixText: 'years',
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 24),
+
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 4))
+              ]
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Sex', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppTheme.primaryGreen)),
+                const SizedBox(height: 8),
+                ...Sex.values.map((sex) {
+                  return RadioListTile<Sex>(
+                    activeColor: AppTheme.primaryGreen,
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(sex.label),
+                    value: sex,
+                    groupValue: _selectedSex,
+                    onChanged: (Sex? value) {
+                      if (value != null) setState(() => _selectedSex = value);
+                    },
+                  );
+                }),
+              ],
             ),
           ),
-
-          const SizedBox(height: 16),
-
-          // Age Card
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Age', style: Theme.of(context).textTheme.titleMedium),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: _ageController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your age',
-                      prefixIcon: Icon(Icons.cake_outlined),
-                      suffixText: 'years',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Sex Card
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Sex', style: Theme.of(context).textTheme.titleMedium),
-                  const SizedBox(height: 12),
-                  ...Sex.values.map((sex) {
-                    return RadioListTile<Sex>(
-                      title: Text(sex.label),
-                      value: sex,
-                      groupValue: _selectedSex,
-                      onChanged: (Sex? value) {
-                        if (value != null) {
-                          setState(() {
-                            _selectedSex = value;
-                          });
-                        }
-                      },
-                    );
-                  }),
-                ],
-              ),
-            ),
-          ),
+          const SizedBox(height: 40),
         ],
       ),
     );
@@ -327,88 +345,33 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
   Widget _buildMeasurementsPage() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Your measurements',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'We need these to calculate your calorie needs',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 32),
-
-          // Weight Card
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.monitor_weight_outlined, size: 24),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Current Weight',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _weightController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your weight',
-                      suffixText: 'kg',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
+          const Icon(Icons.straighten, size: 64, color: AppTheme.primaryBlue),
           const SizedBox(height: 16),
+          Text('Your body profile', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),
+          const Text('Accurate measurements mean better bank goals.', style: TextStyle(color: AppTheme.mediumGray, fontSize: 16)),
+          const SizedBox(height: 40),
 
-          // Height Card
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.height, size: 24),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Height',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _heightController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your height',
-                      suffixText: 'cm',
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          _buildTextField(
+            controller: _weightController,
+            label: 'Current Weight',
+            icon: Icons.monitor_weight_outlined,
+            suffixText: 'kg',
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
           ),
+          const SizedBox(height: 24),
+          _buildTextField(
+            controller: _heightController,
+            label: 'Height',
+            icon: Icons.height,
+            suffixText: 'cm',
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          ),
+          const SizedBox(height: 40),
         ],
       ),
     );
@@ -416,126 +379,65 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
   Widget _buildGoalsPage() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Your goals', style: Theme.of(context).textTheme.headlineMedium),
+          const Icon(Icons.flag_circle_outlined, size: 64, color: AppTheme.primaryBlue),
+          const SizedBox(height: 16),
+          Text('Set your goals', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          Text(
-            'Tell us what you want to achieve',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 32),
+          const Text('Let\'s set your targets so you can start saving.', style: TextStyle(color: AppTheme.mediumGray, fontSize: 16)),
+          const SizedBox(height: 40),
 
-          // Target Weight Card
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.flag_outlined, size: 24),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Target Weight',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _targetWeightController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your target weight',
-                      suffixText: 'kg',
-                    ),
-                  ),
-                ],
-              ),
+          _buildTextField(
+            controller: _targetWeightController,
+            label: 'Target Weight',
+            icon: Icons.flag_outlined,
+            suffixText: 'kg',
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          ),
+          const SizedBox(height: 24),
+          _buildTextField(
+            controller: _daysController,
+            label: 'Timeline',
+            icon: Icons.calendar_today_outlined,
+            suffixText: 'days',
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 24),
+
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 4))
+              ]
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Activity Level', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppTheme.primaryGreen)),
+                const SizedBox(height: 8),
+                ...ExerciseLevel.values.map((level) {
+                  return RadioListTile<ExerciseLevel>(
+                    activeColor: AppTheme.primaryGreen,
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(level.label, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Text(level.description, style: const TextStyle(fontSize: 12)),
+                    value: level,
+                    groupValue: _selectedExerciseLevel,
+                    onChanged: (ExerciseLevel? value) {
+                      if (value != null) setState(() => _selectedExerciseLevel = value);
+                    },
+                  );
+                }),
+              ],
             ),
           ),
-
-          const SizedBox(height: 16),
-
-          // Timeline Card
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.calendar_today_outlined, size: 24),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Timeline',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _daysController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      hintText: 'Days to reach your goal',
-                      suffixText: 'days',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Exercise Level Card
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.fitness_center_outlined, size: 24),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Exercise Level',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  ...ExerciseLevel.values.map((level) {
-                    return RadioListTile<ExerciseLevel>(
-                      title: Text(level.label),
-                      subtitle: Text(
-                        level.description,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      value: level,
-                      groupValue: _selectedExerciseLevel,
-                      onChanged: (ExerciseLevel? value) {
-                        if (value != null) {
-                          setState(() {
-                            _selectedExerciseLevel = value;
-                          });
-                        }
-                      },
-                    );
-                  }),
-                ],
-              ),
-            ),
-          ),
+          const SizedBox(height: 40),
         ],
       ),
     );
