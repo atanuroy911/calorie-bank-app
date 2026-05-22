@@ -169,7 +169,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               children: [
                 SwitchListTile(
-                  activeColor: AppTheme.primaryGreen,
+                  activeThumbColor: AppTheme.primaryGreen,
                   title: const Text('Push Notifications', style: TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: const Text('Receive calorie reminders'),
                   value: _pushNotifications,
@@ -178,7 +178,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const Divider(height: 1),
                 SwitchListTile(
-                  activeColor: AppTheme.primaryGreen,
+                  activeThumbColor: AppTheme.primaryGreen,
                   title: const Text('Sound Effects', style: TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: const Text('Play sounds for interactions'),
                   value: _soundEffects,

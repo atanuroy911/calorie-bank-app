@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/custom_widgets.dart';
 import '../../routes/app_routes.dart';
 
 class OnboardingScreen extends StatefulWidget {

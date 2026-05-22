@@ -51,13 +51,15 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  flutter_native_splash: ^2.4.0
+
+flutter_native_splash:
+  color: "#003D4D" # Match the top-left of our primary gradient
+  color_dark: "#003D4D"
+  android_12:
+    color: "#003D4D"
+    color_dark: "#003D4D"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
