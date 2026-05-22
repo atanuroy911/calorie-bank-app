@@ -1,0 +1,26 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#003d4d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00c996;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="200" height="200" rx="40" fill="url(#grad1)" />
+  
+  <!-- Bank Building -->
+  <path d="M100 40 L160 80 L40 80 Z" fill="#ffffff" />
+  <rect x="40" y="85" width="120" height="15" fill="#ffffff" />
+  
+  <!-- Pillars -->
+  <rect x="50" y="105" width="15" height="50" fill="#ffffff" />
+  <rect x="80" y="105" width="15" height="50" fill="#ffffff" />
+  <rect x="110" y="105" width="15" height="50" fill="#ffffff" />
+  <rect x="140" y="105" width="15" height="50" fill="#ffffff" />
+  
+  <!-- Base -->
+  <rect x="35" y="155" width="130" height="15" fill="#ffffff" />
+
+  <!-- Fire Icon in Pediment -->
+  <path d="M100 50 C100 50 110 65 110 70 C110 75 105 78 100 78 C95 78 90 75 90 70 C90 65 100 50 100 50 Z" fill="#00c996" />
+</svg>
