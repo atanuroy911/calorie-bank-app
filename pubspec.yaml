@@ -1,0 +1,58 @@
+name: calorie_bank
+description: "Calorie Bank - Treat your calories like money. Save, spend, and grow your calorie savings."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # State Management
+  flutter_riverpod: ^2.5.1
+
+  # Navigation
+  go_router: ^14.3.0
+
+  # Networking
+  dio: ^5.7.0
+
+  # Local DB (no code-gen required)
+  sqflite: ^2.3.3
+  path_provider: ^2.1.5
+  path: ^1.9.0
+
+  # Preferences
+  shared_preferences: ^2.3.3
+  flutter_secure_storage: ^9.2.2
+
+  # AI
+  google_generative_ai: ^0.4.6
+
+  # UI & Fonts
+  google_fonts: ^6.2.1
+  flutter_animate: ^4.5.0
+  fl_chart: ^0.69.0
+
+  # Utils
+  uuid: ^4.5.1
+  intl: ^0.19.0
+  equatable: ^2.0.7
+  collection: ^1.18.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/lottie/

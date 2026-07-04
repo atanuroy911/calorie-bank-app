@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calorie Bank — Archived Flutter Project</title>
+<style>
+  :root {
+    --bg: #0A0E1A;
+    --surface: #131929;
+    --surface-elevated: #1A2235;
+    --border: #1E2D45;
+    --primary: #00D4AA;
+    --primary-dark: #00A882;
+    --accent: #7B61FF;
+    --text: #F0F4FF;
+    --text-secondary: #8896B0;
+    --text-muted: #4A5568;
+    --negative: #FF4757;
+    --warning: #FFB347;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
+  }
+  a { color: var(--primary); }
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  header.hero {
+    padding: 72px 0 56px;
+    text-align: center;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(123,97,255,0.25), transparent 70%),
+      radial-gradient(ellipse 50% 40% at 20% 20%, rgba(0,212,170,0.12), transparent 70%);
+  }
+  .logo-badge {
+    width: 72px; height: 72px;
+    border-radius: 20px;
+    margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 34px;
+    background: linear-gradient(135deg, #00D4AA, #00A882);
+    box-shadow: 0 8px 30px rgba(0,212,170,0.35);
+  }
+  h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 12px; letter-spacing: -0.02em; }
+  .tagline { color: var(--text-secondary); font-size: 1.15rem; max-width: 640px; margin: 0 auto; }
+
+  .badge-row { margin-top: 28px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 0.8rem; font-weight: 600;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-secondary);
+  }
+  .badge.status {
+    color: var(--negative);
+    border-color: rgba(255,71,87,0.35);
+    background: rgba(255,71,87,0.08);
+  }
+
+  section { padding: 56px 0; }
+  section h2 {
+    font-size: 1.6rem;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  section .section-sub {
+    color: var(--text-secondary);
+    margin: 0 0 32px;
+    max-width: 640px;
+  }
+
+  .notice {
+    border: 1px solid rgba(255,71,87,0.35);
+    background: rgba(255,71,87,0.07);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin: 40px 0;
+  }
+  .notice h3 { margin: 0 0 8px; color: #FF8A94; font-size: 1.05rem; }
+  .notice p { margin: 0; color: var(--text-secondary); line-height: 1.6; }
+
+  .gif-frame {
+    display: flex; justify-content: center; margin: 8px 0 0;
+  }
+  .gif-frame img {
+    max-width: 320px; width: 100%;
+    border-radius: 28px;
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 28px;
+    margin-top: 8px;
+  }
+  .shot {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 14px 14px 18px;
+    text-align: center;
+  }
+  .shot img {
+    width: 100%;
+    border-radius: 14px;
+    display: block;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+  }
+  .shot span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .feature {
+    background: linear-gradient(135deg, var(--surface-elevated), var(--surface));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+  }
+  .feature .icon { font-size: 1.6rem; margin-bottom: 10px; display: block; }
+  .feature h3 { margin: 0 0 8px; font-size: 1.05rem; }
+  .feature p { margin: 0; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.55; }
+
+  .stack-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pill {
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+
+  footer {
+    padding: 40px 0 80px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--text-secondary); }
+
+  code, .code {
+    font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2px 8px;
+    font-size: 0.85em;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="logo-badge">🏦</div>
+    <h1>Calorie Bank</h1>
+    <p class="tagline">Treat your calories like money — save, spend, and grow your daily calorie budget like a bank account.</p>
+    <div class="badge-row">
+      <span class="badge status">⚠ Archived — migrated to Kotlin</span>
+      <span class="badge">Flutter</span>
+      <span class="badge">Riverpod</span>
+      <span class="badge">Gemini AI</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="notice">
+    <h3>This project is abandoned</h3>
+    <p>
+      Calorie Bank was built as a Flutter proof-of-concept. Active development has since moved to a
+      <strong>native Kotlin (Android)</strong> rewrite, so this Flutter codebase is no longer maintained.
+      It's preserved here as a reference implementation and design showcase — screenshots, a demo GIF,
+      and the full source remain available in the
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub repository</a>.
+    </p>
+  </div>
+
+  <section id="demo">
+    <h2>Live demo</h2>
+    <p class="section-sub">A quick walkthrough of the bottom-navigation flow: Home → CalBot → Home → Bank → Profile.</p>
+    <div class="gif-frame">
+      <img src="assets/demo.gif" alt="Calorie Bank app demo GIF" loading="lazy">
+    </div>
+  </section>
+
+  <section id="screenshots">
+    <h2>Screenshots</h2>
+    <p class="section-sub">Captured on an Android emulator (Medium Phone API 36.1).</p>
+    <div class="grid">
+      <div class="shot"><img src="assets/screenshots/onboarding_1.png" alt="Onboarding welcome screen"><span>Onboarding</span></div>
+      <div class="shot"><img src="assets/screenshots/home_dashboard.png" alt="Home dashboard"><span>Home Dashboard</span></div>
+      <div class="shot"><img src="assets/screenshots/calbot_chat.png" alt="CalBot AI chat screen"><span>CalBot AI Chat</span></div>
+      <div class="shot"><img src="assets/screenshots/transaction_ledger.png" alt="Transaction ledger"><span>Transaction Ledger</span></div>
+      <div class="shot"><img src="assets/screenshots/calorie_bank.png" alt="Calorie bank savings screen"><span>Calorie Bank</span></div>
+      <div class="shot"><img src="assets/screenshots/profile.png" alt="Profile screen"><span>Profile</span></div>
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2>The concept</h2>
+    <p class="section-sub">Calorie Bank reframes calorie tracking with a banking metaphor.</p>
+    <div class="feature-grid">
+      <div class="feature">
+        <span class="icon">💰</span>
+        <h3>Daily Budget = Income</h3>
+        <p>Your calculated daily calorie budget acts like income deposited into your account each day.</p>
+      </div>
+      <div class="feature">
+        <span class="icon">🍽️</span>
+        <h3>Food = Spending</h3>
+        <p>Every meal you log is a transaction that spends against today's budget.</p>
+      </div>
+      <div class="feature">
+        <span class="icon">📈</span>
+        <h3>Unused Calories = Savings</h3>
+        <p>Stay under budget and the surplus is automatically saved into your Calorie Bank balance.</p>
+      </div>
+      <div class="feature">
+        <span class="icon">🏛️</span>
+        <h3>Withdraw Anytime</h3>
+        <p>Cash in saved calories later for a cheat meal, a weekend feast, or a special occasion.</p>
+      </div>
+      <div class="feature">
+        <span class="icon">🤖</span>
+        <h3>Log with CalBot</h3>
+        <p>Describe what you ate in plain language and Gemini-powered CalBot logs it automatically — no manual search.</p>
+      </div>
+      <div class="feature">
+        <span class="icon">📊</span>
+        <h3>Macro Tracking</h3>
+        <p>Protein, carbs, fat, fiber, and key micronutrients tracked against personalized daily goals.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <h2>Tech stack</h2>
+    <p class="section-sub">Layered/clean architecture with Riverpod for state and go_router for navigation.</p>
+    <div class="stack-row">
+      <span class="pill">Flutter (Dart ^3.5.0)</span>
+      <span class="pill">flutter_riverpod</span>
+      <span class="pill">go_router</span>
+      <span class="pill">sqflite</span>
+      <span class="pill">shared_preferences</span>
+      <span class="pill">flutter_secure_storage</span>
+      <span class="pill">dio</span>
+      <span class="pill">google_generative_ai (Gemini)</span>
+      <span class="pill">fl_chart</span>
+      <span class="pill">google_fonts</span>
+      <span class="pill">flutter_animate</span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Calorie Bank — archived Flutter reference project. Full source in the repository <code>README.md</code>.
+  </div>
+</footer>
+
+</body>
+</html>
