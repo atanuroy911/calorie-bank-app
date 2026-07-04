@@ -3,9 +3,9 @@
 > Treat your calories like money — save, spend, and grow your daily calorie budget like a bank account.
 
 > [!WARNING]
-> **This project is abandoned / archived.** Development has moved to a native **Kotlin (Android)** rewrite. This Flutter codebase is kept for reference and is not receiving further updates. See [Project status](#project-status) below.
+> **This project is abandoned / archived.** Development has moved to a native **Kotlin (Android)** rewrite: **[calorie-bank-kotlin](https://github.com/atanuroy911/calorie-bank-kotlin)**. This Flutter codebase is kept for reference and is not receiving further updates. See [Project status](#project-status) below.
 
-📄 **[View the full project showcase (GitHub Pages)](https://atanu-roy.github.io/calorie-bank/)** *(replace with your actual Pages URL once enabled)*
+📄 **[View the full project showcase (GitHub Pages)](https://atanuroy911.github.io/calorie-bank-app/)** *(enable GitHub Pages: Settings → Pages → source `main` / `/docs`)*
 
 ![Calorie Bank demo](docs/assets/demo.gif)
 
@@ -66,7 +66,7 @@ lib/
 
 ## Project status
 
-This app was built as a Flutter proof-of-concept for the "calorie bank" idea. Going forward, active development continues in a **native Kotlin/Android** version, so:
+This app was built as a Flutter proof-of-concept for the "calorie bank" idea. Going forward, active development continues in a **native Kotlin/Android** version — **[atanuroy911/calorie-bank-kotlin](https://github.com/atanuroy911/calorie-bank-kotlin)** — so:
 
 - No further features or bug fixes are planned for this Flutter codebase.
 - It remains here as a reference implementation and for its documented UI/UX.
