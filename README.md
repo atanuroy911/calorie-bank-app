@@ -5,7 +5,7 @@
 > [!WARNING]
 > **This project is abandoned / archived.** Development has moved to a native **Kotlin (Android)** rewrite: **[calorie-bank-kotlin](https://github.com/atanuroy911/calorie-bank-kotlin)**. This Flutter codebase is kept for reference and is not receiving further updates. See [Project status](#project-status) below.
 
-📄 **[View the full project showcase (GitHub Pages)](https://atanuroy911.github.io/calorie-bank-app/)** *(enable GitHub Pages: Settings → Pages → source `main` / `/docs`)*
+📄 **[View the full project showcase (GitHub Pages)](https://atanuroy911.github.io/calorie-bank-app/)**
 
 ![Calorie Bank demo](docs/assets/demo.gif)
 
